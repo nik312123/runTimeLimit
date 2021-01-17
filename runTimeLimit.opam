@@ -1,0 +1,25 @@
+opam-version: "2.0"
+name: "runTimeout"
+version: "1.0"
+synopsis: "RunTimeout runs function thunks with time limits"
+description: """
+RunTimeout is used to run a function thunk within a time limit, using OCaml
+Threads and OS-dependent signal handling
+"""
+maintainer: "Nikunj Chawla <nikchawla312@gmail.com>"
+authors: "Nikunj Chawla <nikchawla312@gmail.com>"
+homepage: "https://github.com/nik312123/timer"
+dev-repo: "git+https://github.com/nik312123/timer.git"
+bug-reports: "https://github.com/nik312123/timer/issues"
+doc: "https://nik312123.github.io/ocamlLibDocs/timer/Timer/"
+depends: [
+    "ocaml" {>= "4.08.1"}
+    "dune" {>= "2.7.1"}
+    "base-bytes"
+    "base-unix"
+]
+build: [
+    ["dune" "build" "-p" name "-j" jobs]
+    ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+    ["dune" "build" "@doc" "-p" name "-j" jobs] {with-doc}
+]
