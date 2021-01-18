@@ -5,16 +5,25 @@ synopsis: "RunTimeout runs function thunks with time limits"
 description: """
 RunTimeout is used to run a function thunk within a time limit, using OCaml
 Threads and OS-dependent signal handling
+
+Note that the time provided to [RunTimeLimit] is not very precise, so the
+program will often finish later than the provided number of seconds; the error
+increases proportionally with the number of seconds provided
+
+Thanks to ivg (https://tinyurl.com/yywosqwl), Justin
+(https://tinyurl.com/y68kulfw), and Gerd (https://tinyurl.com/yy3wdqxp) for the
+material used as reference when creating this module
 """
 maintainer: "Nikunj Chawla <nikchawla312@gmail.com>"
 authors: "Nikunj Chawla <nikchawla312@gmail.com>"
-homepage: "https://github.com/nik312123/timer"
-dev-repo: "git+https://github.com/nik312123/timer.git"
-bug-reports: "https://github.com/nik312123/timer/issues"
-doc: "https://nik312123.github.io/ocamlLibDocs/timer/Timer/"
+homepage: "https://github.com/nik312123/runTimeLimit"
+dev-repo: "git+https://github.com/nik312123/runTimeLimit.git"
+bug-reports: "https://github.com/nik312123/runTimeLimit/issues"
+doc: "https://nik312123.github.io/ocamlLibDocs/runTimeLimit/RunTimeLimit/"
 depends: [
     "ocaml" {>= "4.08.1"}
     "dune" {>= "2.7.1"}
+    "base-threads"
     "base-bytes"
     "base-unix"
 ]
