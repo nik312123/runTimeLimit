@@ -1,4 +1,21 @@
-exception TimeLimitExceeded
+(*
+    Copyright (C) 2020 Nikunj Chawla
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see {:https://www.gnu.org/licenses/}.
+*)
+
+exception TimeLimitExceeded of string
 
 (**
     [ThreadInterrupted] is the exception used to interrupt a thread
@@ -143,4 +160,4 @@ let with_time_limit (time: int) (check_period: float) (fn_thunk: unit -> 'a): 'a
         | TimeExceeded ->
             interrupt_id := Some (Thread.id worker_thread);
             Thread.join worker_thread;
-            raise TimeLimitExceeded
+            raise (TimeLimitExceeded (Printf.sprintf "Time limit exceeded of %d seconds" time))
