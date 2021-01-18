@@ -28,9 +28,10 @@
 *)
 
 (**
-    [TimeLimitExceeded] is raised if the provided thunk takes longer to execute than the provided time
+    [TimeLimitExceeded] is raised if the provided thunk takes longer to execute than the provided time, taking in a
+    string in the form "Time limit exceeded of <time> seconds" where <time> is replaced with the provided time limit
 *)
-exception TimeLimitExceeded
+exception TimeLimitExceeded of string
 
 (**
     [with_time_limit] runs [fn_thunk] for [time] seconds, returning the value returned by the execution of [fn_thunk] if
