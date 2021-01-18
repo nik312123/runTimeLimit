@@ -47,11 +47,11 @@ let timer (guard: Mutex.t) (time: int) (res_ref: 'a result option ref) (): unit 
     try
         (*
             The purpose of this loop (as opposed to using Thread.delay with the whole time) is to allow the timer thread
-            to be interrupted within 0.25 seconds of fun_thunk returning if it returns before the provided time limit
+            to be interrupted within 0.5 seconds of fun_thunk returning if it returns before the provided time limit
         *)
         let rec delay_loop (i: int): unit =
-            if i < 4 * time
-            then let () = Thread.delay 0.25 in delay_loop (i + 1)
+            if i < 2 * time
+            then let () = Thread.delay 0.5 in delay_loop (i + 1)
         in delay_loop 0;
         Mutex.lock guard;
         (*
