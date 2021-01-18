@@ -34,5 +34,6 @@ _build/
 *.byte
 *.cmi
 *.cmo
-.merlin
 *.aux
+.merlin
+.ocamlinit
