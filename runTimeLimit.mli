@@ -5,8 +5,26 @@
     Note that the time provided to [RunTimeLimit] is not very precise, so the program will often finish later than the
     provided number of seconds; the error increases proportionally with the number of seconds provided
     
+    Additionally, this library has only been tested on Unix-based systems, so no guarantees are made on its usability on
+    Windows
+    
     Thanks to {{:https://tinyurl.com/yywosqwl} ivg}, {{:https://tinyurl.com/y68kulfw} Justin}, and
     {{:https://tinyurl.com/yy3wdqxp} Gerd} for the material used as reference when creating this module
+    
+    Copyright (C) 2020 Nikunj Chawla
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see {:https://www.gnu.org/licenses/}.
 *)
 
 (**
