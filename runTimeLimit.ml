@@ -43,9 +43,16 @@ let rec result_timer_checker (guard: Mutex.t) (check_period: float) (res_ref: 'a
     @param ()       Unit
     @return         Unit
 *)
-let timer (guard: Mutex.t) (time: float) (res_ref: 'a result option ref) (): unit =
+let timer (guard: Mutex.t) (time: int) (res_ref: 'a result option ref) (): unit =
     try
-        Thread.delay time;
+        (*
+            The purpose of this loop (as opposed to using Thread.delay with the whole time) is to allow the timer thread
+            to be interrupted within 0.25 seconds of fun_thunk returning if it returns before the provided time limit
+        *)
+        let rec delay_loop (i: int): unit =
+            if i < 4 * time
+            then let () = Thread.delay 0.25 in delay_loop (i + 1)
+        in delay_loop 0;
         Mutex.lock guard;
         (*
             If res_ref's value does not use the [Some] type constructor when the time is up, then set it to
@@ -109,7 +116,7 @@ let interrupt (vt_original_behavior_ref: Sys.signal_behavior ref) (sig_num: int)
         | Sys.Signal_handle f -> f sig_num
         | _ -> failwith "The Threads library must be enabled to use RunTimeLimit"
 
-let with_time_limit (time: float) (check_period: float) (fn_thunk: unit -> 'a): 'a =
+let with_time_limit (time: int) (check_period: float) (fn_thunk: unit -> 'a): 'a =
     (* The mutual-exclusion lock used to prevent concurrent accesses to res_ref *)
     let guard = Mutex.create () in
     (* The reference to the result of attempting to execute the provided thunk within the time limit *)
@@ -122,13 +129,15 @@ let with_time_limit (time: float) (check_period: float) (fn_thunk: unit -> 'a): 
     let vt_original_behavior = Sys.signal vt_signal (Sys.Signal_handle (interrupt vt_original_behavior_ref)) in
     vt_original_behavior_ref := vt_original_behavior;
     (* Creates and starts the threads for the timer and worker *)
-    let _ = Thread.create (timer guard time res_ref) () in
+    let timer_thread = Thread.create (timer guard time res_ref) () in
     let worker_thread = Thread.create (worker guard fn_thunk res_ref) () in
     (* Checks for res_ref being assigned every check_period seconds and returns its value when it is *)
     let result = result_timer_checker guard check_period res_ref in
     match result with
         (* If a result was returned by the function, then interrupt the timer thread and return the result *)
         | Res res ->
+            interrupt_id := Some (Thread.id timer_thread);
+            Thread.join timer_thread;
             res
         (* If the time limit was exceeded, then interrupt the worker thread and raise TimeLimitExceeded *)
         | TimeExceeded ->
