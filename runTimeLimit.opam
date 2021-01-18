@@ -10,6 +10,9 @@ Note that the time provided to [RunTimeLimit] is not very precise, so the
 program will often finish later than the provided number of seconds; the error
 increases proportionally with the number of seconds provided
 
+Additionally, this library has only been tested on Unix-based systems, so no
+guarantees are made on its usability on Windows
+
 Thanks to ivg (https://tinyurl.com/yywosqwl), Justin
 (https://tinyurl.com/y68kulfw), and Gerd (https://tinyurl.com/yy3wdqxp) for the
 material used as reference when creating this module
