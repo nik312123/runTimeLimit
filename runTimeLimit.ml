@@ -160,4 +160,7 @@ let with_time_limit (time: int) (check_period: float) (fn_thunk: unit -> 'a): 'a
         | TimeExceeded ->
             interrupt_id := Some (Thread.id worker_thread);
             Thread.join worker_thread;
-            raise (TimeLimitExceeded (Printf.sprintf "Time limit exceeded of %d seconds" time))
+            raise (
+                TimeLimitExceeded
+                (Printf.sprintf "Time limit exceeded of %d second%s" time (if time = 1 then "" else "s"))
+            )
