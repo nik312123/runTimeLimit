@@ -1,4 +1,5 @@
 (library
  (name runTimeLimit)
  (public_name runTimeLimit)
- (libraries unix))
+ (libraries unix)
+ (modes byte))

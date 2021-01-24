@@ -2,8 +2,7 @@
     [RunTimeLimit] is used to run a function thunk within a time limit, using OCaml's Unix timers and signal handling,
     which only allows this program to be compatible on Unix-based devices
     
-    This program also does not work with multithreading and does not currently support Dune (see
-    {:https://github.com/ocaml/dune/issues/4151})
+    This program also does not work with multithreading and only supports compilation with bytecode
     
     Thanks to {{:https://tinyurl.com/yy3wdqxp} Gerd} for the method of keeping the original signal handler behavior
     
