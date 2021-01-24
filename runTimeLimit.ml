@@ -31,7 +31,7 @@ exception AlarmOccurred
                                        that was provided to {!with_time_limit}
     @param sig_num                     The signal number this signal handler was called with
     @return Unit
-    @raise [AlarmOccurred] Always raised as long as the original alarm signal handler does not raise any exceptions
+    @raise AlarmOccurred Always raised as long as the original alarm signal handler does not raise any exceptions
 *)
 let interrupt (original_alarm_behavior_ref: Sys.signal_behavior ref) (sig_num: int): unit =
     (match !original_alarm_behavior_ref with

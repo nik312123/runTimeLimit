@@ -37,6 +37,6 @@ exception TimeLimitExceeded of string
     @param time     The time limit to execute [fn_thunk] in seconds
     @param fn_thunk The thunk to execute with a limit
     @return The value returned by the execution of [fn_thunk]
-    @raise [TimeLimitExceeded] Raised if [fn_thunk] did not run within the provided time limit
+    @raise TimeLimitExceeded Raised if [fn_thunk] did not run within the provided time limit
 *)
 val with_time_limit: Unix.interval_timer -> float -> (unit -> 'a) -> 'a
