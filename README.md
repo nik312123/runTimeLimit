@@ -1,12 +1,12 @@
-# timer
+# runTimeLimit
 
 ## Short Description
 
-Used to time the execution time of expressions or functions.
+Runs function thunks with time limits
 
 ## Documentation
 
-The documentation for the `Timer` module is present here: [Timer documentation](https://nik312123.github.io/ocamlLibDocs/timer/Timer/).
+The documentation for the `RunTimeLimit` module is present here: [RunTimeLimit documentation](https://nik312123.github.io/ocamlLibDocs/runTimeLimit/RunTimeLimit/).
 
 ## Installation
 
@@ -18,54 +18,23 @@ Clone this repository in your workspace directory where the workspace path is `[
 
 ```bash
 cd [workspace_path]
-git clone https://github.com/nik312123/timer.git
+git clone https://github.com/nik312123/runTimeLimit.git
 ```
 
 **1\. If your project is a dune project:**
 
-Ensure that your workspace has a structure that matches something like one of the below structures:
-
-Outer-most possible structure:
-
-```
-workspace_dir/
-    dune
-    dune-project
-    example.ml
-    example2.ml
-    ...
-```
-
-The `.ml` files in which you need to use the library can be nested as far as you would like as in the following:
-
-```
-workspace_dir/
-    dune
-    dune-project
-    project_subdir/
-        dune
-        example.ml
-        example2.ml
-```
-
-Then, in the `dune` file corresponding to the `.ml` file(s) in question, you can add `timer` in the libraries section like in the following:
-
-```
-(executable
-    (name example)
-    (libraries timer))
-```
+Dune projects are currently not supported (see [dune issue 4151](https://github.com/ocaml/dune/issues/4151))
 
 **2\. If your project is built using `ocamlbuild`**
 
-When building using `ocamlbuild`, include the library directory in the locations to search for dependencies.
+When building using `ocamlbuild`, include the library directory in the locations to search for dependencies, and include the `Unix` library
 
 Example:
 
-If `[example_path]` is the path for `example.ml` and `[timer_path]` is the path for `timer.ml` where both paths are subdirectories of the workspace directory, then the following would be the command to build `example.byte` using the `Timer` module:
+If `[example_path]` is the path for `example.ml` and `[runTimeLimit_path]` is the path for `runTimeLimit.ml` where both paths are subdirectories of the workspace directory, then the following would be the command to build `example.byte` using the `RunTimeLimit` module:
 
 ```bash
-ocamlbuild -use-ocamlfind -I [example_path] -I [timer_path] example.byte
+ocamlbuild -lib unix -use-ocamlfind -I [example_path] -I [runTimeLimit_path] example.byte
 ```
 
 ### Installing it in your `opam` switch and using it in a project
@@ -73,13 +42,13 @@ ocamlbuild -use-ocamlfind -I [example_path] -I [timer_path] example.byte
 Clone the repository wherever you would like:
 
 ```bash
-git clone https://github.com/nik312123/timer.git
+git clone https://github.com/nik312123/runTimeLimit.git
 ```
 
 Go into the directory you just cloned:
 
 ```bash
-cd timer
+cd runTimeLimit
 ```
 
 Install the library using `opam`:
@@ -90,22 +59,14 @@ opam install .
 
 **1\. If your project is a dune project:**
 
-Then, in the `dune` file corresponding to the `.ml` file(s) in question, you can add `timer` in the libraries section like in the following:
-
-```
-(executable
-    (name example)
-    (libraries timer))
-```
+Dune projects are currently not supported (see [dune issue 4151](https://github.com/ocaml/dune/issues/4151))
 
 **2\. If your project is built using `ocamlbuild`**
 
-When building using `ocamlbuild`, include the library in your packages.
-
-Example:
+When building using `ocamlbuild`, include the library in your packages, and include the `Unix` library.
 
 ```bash
-ocamlbuild -pkgs timer example.byte
+ocamlbuild -lib unix -pkgs runTimeLimit example.byte
 ```
 
 ## Terms of Use
