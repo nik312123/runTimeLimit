@@ -1,15 +1,11 @@
 (**
-    [RunTimeLimit] is used to run a function thunk within a time limit, using OCaml
-    {{:https://tinyurl.com/ocaml-thread} Thread}s and OS-dependent signal handling
+    [RunTimeLimit] is used to run a function thunk within a time limit, using OCaml's Unix timers and signal handling,
+    which only allows this program to be compatible on Unix-based devices
     
-    Note that the time provided to [RunTimeLimit] is not very precise, so the program will often finish later than the
-    provided number of seconds; the error increases proportionally with the number of seconds provided
+    This program also does not work with multithreading and does not currently support Dune (see
+    {:https://github.com/ocaml/dune/issues/4151})
     
-    Additionally, this library has only been tested on Unix-based systems, so no guarantees are made on its usability on
-    Windows
-    
-    Thanks to {{:https://tinyurl.com/yywosqwl} ivg}, {{:https://tinyurl.com/y68kulfw} Justin}, and
-    {{:https://tinyurl.com/yy3wdqxp} Gerd} for the material used as reference when creating this module
+    Thanks to {{:https://tinyurl.com/yy3wdqxp} Gerd} for the method of keeping the original signal handler behavior
     
     Copyright (C) 2020 Nikunj Chawla
     
@@ -35,12 +31,12 @@ exception TimeLimitExceeded of string
 
 (**
     [with_time_limit] runs [fn_thunk] for [time] seconds, returning the value returned by the execution of [fn_thunk] if
-    it runs within the time limit and raising {!TimeLimitExceeded} otherwise; it also checks whether or not a value has
-    been returned by the thread running [fn_thunk] every [check_period] seconds
-    @param time         The time limit to execute [fn_thunk] in seconds
-    @param check_period The period between each check of [res_ref] for the result
-    @param fn_thunk     The thunk to execute with a limit
+    it runs within the time limit and raising {!TimeLimitExceeded} otherwise
+    @param timer    The {{:https://tinyurl.com/ocaml-unix-interval-timer} Unix.interval_timer} to use for setting a
+                    time limit on the execution time of [fn_thunk]
+    @param time     The time limit to execute [fn_thunk] in seconds
+    @param fn_thunk The thunk to execute with a limit
     @return The value returned by the execution of [fn_thunk]
     @raise [TimeLimitExceeded] Raised if [fn_thunk] did not run within the provided time limit
 *)
-val with_time_limit: int -> float -> (unit -> 'a) -> 'a
+val with_time_limit: Unix.interval_timer -> float -> (unit -> 'a) -> 'a

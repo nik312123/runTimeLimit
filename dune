@@ -1,4 +1,4 @@
 (library
  (name runTimeLimit)
  (public_name runTimeLimit)
- (libraries unix threads))
+ (libraries unix))
